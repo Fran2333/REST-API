@@ -41,7 +41,29 @@ const getOneRegister = (req,res)=>{
    
        });
 }
+ const updateRegister = (req, res) => {
+    Register.findByIdAndUpdate(
+      req.params.RegisterId,
+      req.body,
+      { new: true },
+      (err, register) => {
+        if (err) return res.status(500).send(err);
+        return res.send(register);
+      }
+    );
+  };
+  
+  const deleteRegister = (req, res) => {
+    Register.findByIdAndRemove(req.params.registerId, (err, register) => {
+      if (err) return res.status(500).send(err);
+      const response = {
+        msg: "Register successfully deleted",
+        id: register._id
+      };
+      return res.status(200).send(response);
+    });
+  };
 
 
 
-module.exports={getRegister,insert,getOneRegister};
+module.exports={getRegister,insert,getOneRegister,updateRegister,deleteRegister};
